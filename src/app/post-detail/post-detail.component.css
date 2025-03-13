@@ -1,0 +1,16 @@
+.post-detail {
+  padding: 20px;
+  width: 100%;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  margin: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #333;
+}
+
+p {
+  color: #666;
+}
