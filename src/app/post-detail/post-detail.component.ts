@@ -1,26 +1,27 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { TransferState, makeStateKey } from '@angular/core';
+
+const POST_KEY = makeStateKey<any>('post');
 
 @Component({
   selector: 'app-post-detail',
-  imports: [],
+  standalone: true,
   templateUrl: './post-detail.component.html',
-  styleUrl: './post-detail.component.css'
+  styleUrls: ['./post-detail.component.css'],
 })
 export class PostDetailComponent implements OnInit {
   post: any;
 
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient
+    private transferState: TransferState
   ) {}
 
   ngOnInit() {
-    const postId = this.route.snapshot.paramMap.get('id');
-    this.http.get<any>(`https://jsonplaceholder.typicode.com/posts/${postId}`)
-      .subscribe(post => {
-        this.post = post;
-      });
+    this.route.paramMap.subscribe(params => {
+      const postId = params.get('id');
+      this.post = this.transferState.get(POST_KEY, null) || this.route.snapshot.data['post'];
+    });
   }
 }
